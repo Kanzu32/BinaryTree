@@ -209,7 +209,7 @@ class BinaryTreeNode {
             if (autoBalance) this.balance();
             return this.right;
         }
-
+        this.count--;
         return null;
     }
 
