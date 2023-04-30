@@ -2,10 +2,6 @@ function comparator(a, b) {
     return (b<a) - (a<b);
 }
 
-//TODO
-
-// animation
-
 class BinaryTree {
     root
     comparator
@@ -76,7 +72,7 @@ class BinaryTree {
                 else nodeToRemove.recalculateUp();
                 
             } else {
-                this.removeByID(newNode.ID); //!!!!!!!!!!
+                this.removeByID(newNode.ID);
                 this.IDArray[nodeToRemove.ID] = null;
                 if (autoBalance) nodeToRemove.recalculateAndRebalanceUp();
                 else nodeToRemove.recalculateUp();
@@ -136,7 +132,7 @@ class BinaryTree {
                 else nodeToRemove.recalculateUp();
                 
             } else {
-                this.removeByID(newNode.ID); //!!!!!!!!!!
+                this.removeByID(newNode.ID);
                 this.IDArray[nodeToRemove.ID] = null;
                 if (autoBalance) nodeToRemove.recalculateAndRebalanceUp();
                 else nodeToRemove.recalculateUp();
@@ -806,11 +802,5 @@ var maxX = 0;
 var maxY = 0;
 let tree = new BinaryTree(comparator);
 var saveQueue = [];
-// tree.insert(0);
-// tree.insert(10);
-// tree.insert(8);
-// tree.insert(15);
-// tree.insert(13);
-// tree.insert(20);
 
 drawTree(tree);
