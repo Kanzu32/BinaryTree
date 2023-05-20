@@ -62,7 +62,14 @@ body {
     display: block;
 }
 
+#sidebar::-webkit-scrollbar {
+    display: none;
+}
+
 #sidebar {
+    overflow: auto;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
     display: block;
     float: right;
     height: 100vh;
