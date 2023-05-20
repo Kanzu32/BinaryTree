@@ -1,4 +1,4 @@
-function comparator(a, b) {
+function comparator(a, b) { // Функция для сравнения данных из узлов дерева
     return (b<a) - (a<b);
 }
 
@@ -11,7 +11,7 @@ class BinaryTree {
         this.comparator = comparator;
     }
 
-    insert(value) {
+    insert(value) { // Вставка значения в дерево
         if (this.root == null) {
             this.root = new BinaryTreeNode(value, this.comparator, this.IDArray.length);
             this.IDArray.push(this.root);
@@ -28,15 +28,15 @@ class BinaryTree {
         }
     }
 
-    find(value) { //return node object
+    find(value) { // Поиск узла по значению
         return this.root.find(value);
     }
 
-    recalculateCounts() {
+    recalculateCounts() { // Пересчёт значения количества вершин в поддереве от корня к листьям
         this.root.recalculateCountDown();
     }
 
-    removeByID(id) {
+    removeByID(id) { // Удаление узла по ID
         if (this.root == null) return;
         const nodeToRemove = this.IDArray[id];
         animationTrace.push([nodeToRemove.DOMLink, "marked-red"]);
@@ -97,7 +97,7 @@ class BinaryTree {
         return true;
     }
 
-    remove(value) {
+    remove(value) { // Удаление узла по значению
         if (this.root == null) return;
         const nodeToRemove = this.find(value);
 
@@ -158,7 +158,7 @@ class BinaryTree {
 
     }
 
-    createSaveString() {
+    createSaveString() { // Создание строки из дерева для последующего сохранения в файл
         let res = (+autoBalance).toString() + "|" + (+intMode).toString() + "|" + (+duplicate).toString();
         if (this.root) res += "|" + this.root.createSaveString();
         return res;
@@ -180,7 +180,7 @@ class BinaryTreeNode {
         this.ID = ID;
     }
 
-    insert(value, ID) {
+    insert(value, ID) { // Рекурсивная вставка в поддерево и присвоение ID
         this.count++;
         if (animation) animationTrace.push([this.DOMLink, "marked-yellow"]);
         if ((duplicate && this.comparator(value, this.value) == 0) || (this.comparator(value, this.value) < 0)) {
@@ -213,7 +213,7 @@ class BinaryTreeNode {
         return null;
     }
 
-    find(value) {
+    find(value) { // Поиск значения в поддереве
         if (this.comparator(this.value, value) === 0) {
             if (animation) animationTrace.push([this.DOMLink, "marked-red"]);
             return this;
@@ -232,7 +232,7 @@ class BinaryTreeNode {
         return null;
     }
 
-    findMin() {
+    findMin() { // Поиск минимального элемента в поддереве
         if (!this.left) {
             if (animation) animationTrace.push([this.DOMLink, "marked-green"]);
             return this;
@@ -241,7 +241,7 @@ class BinaryTreeNode {
         return this.left.findMin();
     }
 
-    removeChild(nodeToRemove) {
+    removeChild(nodeToRemove) { // Удадение дочернего узла
         if (this.left && this.left === nodeToRemove) {
             this.left = null;
             return true;
@@ -255,7 +255,7 @@ class BinaryTreeNode {
         return false;
     }
 
-    replaceChild(nodeToReplace, replacementNode) {
+    replaceChild(nodeToReplace, replacementNode) { // Замена дочернего узла
         if (!nodeToReplace || !replacementNode) {
             return false;
         }
@@ -275,7 +275,7 @@ class BinaryTreeNode {
         return false;
     }
 
-    recalculateAndRebalanceUp() {
+    recalculateAndRebalanceUp() { // Пересчёт кол-ва узлов в поддереве и балансировка от листа к корню
         this.count = 1;
         if (this.left) {
             this.count += this.left.count;
@@ -292,7 +292,7 @@ class BinaryTreeNode {
         }
     }
 
-    recalculateUp() {
+    recalculateUp() { // Пересчёт кол-ва узлов в поддеревеа от листа к корню
         this.count = 1;
         if (this.left) {
             this.count += this.left.count;
@@ -303,7 +303,7 @@ class BinaryTreeNode {
         }
     }
 
-    recalculateCountDown() {
+    recalculateCountDown() { // Пересчёт кол-ва узлов в поддеревеа от корня к листьям
         this.count = 1;
         if (this.left) {
             this.count += this.left.recalculateCountDown();
@@ -315,7 +315,7 @@ class BinaryTreeNode {
         return this.count;
     }
 
-    rotateLeft() {
+    rotateLeft() { // Малый левый поворот поддерева
         let b = this.right;
         this.right = b.left;
         if (b.left) {
@@ -333,7 +333,7 @@ class BinaryTreeNode {
         this.recalculateCountDown();
     }
 
-    rotateRight() {
+    rotateRight() { // Малый правый поворот
         let b = this.left;
         this.left = b.right;
         if (b.right) {
@@ -351,17 +351,17 @@ class BinaryTreeNode {
         this.recalculateCountDown();
     }
 
-    bigRotateLeft() {
+    bigRotateLeft() { // Большой левый поворот
         this.right.rotateRight()
         this.rotateLeft()
     }
 
-    bigRotateRight() {
+    bigRotateRight() { // Большой правый поворот
         this.left.rotateLeft()
         this.rotateRight()
     }
 
-    getHeight() {
+    getHeight() { // Получение глубины поддерева
         if (!this.left && !this.right) {
             return 1;
         } else if (this.left && this.right) {
@@ -375,7 +375,7 @@ class BinaryTreeNode {
 
 
 
-    balance() {
+    balance() { // Балансировка поддерева
         let rightHeight = 0
         let leftHeight = 0
         if (this.right) rightHeight = this.right.getHeight();
@@ -404,7 +404,7 @@ class BinaryTreeNode {
         }
     }
 
-    createSaveString() {
+    createSaveString() { // Создание строки из узла для последующего сохранения в файл
         if (this.left) saveQueue.push(this.left);
         if (this.right) saveQueue.push(this.right);
         if (saveQueue.length == 0) {
@@ -418,7 +418,7 @@ class BinaryTreeNode {
     }
 }
 
-// Tree view controls
+// Управление и навигация по дереву
 const view = document.getElementById("view");
 const content = document.getElementById("content");
 let pos = { top: 0, left: 0, x: 0, y: 0 };
@@ -440,11 +440,9 @@ const mouseDownHandler = function (e) {
 };
 
 const mouseMoveHandler = function (e) {
-    // How far the mouse has been moved
     const dx = e.clientX - pos.x;
     const dy = e.clientY - pos.y;
 
-    // Scroll the element
     view.scrollTop = pos.top - dy;
     view.scrollLeft = pos.left - dx;
 };
@@ -459,7 +457,7 @@ const mouseUpHandler = function () {
 
 view.addEventListener('mousedown', mouseDownHandler);
 
-// draw functions
+// Функции отрисовки дерева
 function drawNode(node, x, y) {
     let block = document.createElement('div');
     block.classList.add('block');
@@ -530,7 +528,7 @@ function drawRight(node, parentX, parentY) {
     if (node.right != null) drawRight(node.right, x, y);
 }
 
-//ui buttons
+// Функции для обработки взаимодействия с интерфейсом
 function addNode() {
     stopAnimation();
     let input = document.getElementById("new-node-input");
@@ -599,7 +597,6 @@ function removeNodeByID(id = -1) {
 
 }
 
-//ui
 dataTypeSwitch = document.getElementById("data-type-input");
 dataTypeSwitch.addEventListener("change", ()=>{
     if (!tree.root) {
@@ -729,11 +726,8 @@ function deleteAll() {
 
 var treeDrawed = false;
 function animate() {
-    console.log(animationTrace);
-    console.log(newNodesTrace);
     if (animationTrace.length > 0) {
         let item = animationTrace[0];
-        console.log(item);
         item[0].classList.add(item[1]);
     } else if (newNodesTrace.length > 0) {
         drawTree(tree);
@@ -782,7 +776,7 @@ function stopAnimation() {
     drawTree(tree);
 }
 
-//initialization
+// Инициализация дерева и его параметров
 var jg;
 var autoBalance = balanceSwitch.checked;
 var intMode = dataTypeSwitch.checked;
@@ -803,4 +797,5 @@ var maxY = 0;
 let tree = new BinaryTree(comparator);
 var saveQueue = [];
 
+// Начальная отрисовка дерева
 drawTree(tree);
